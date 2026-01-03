@@ -75,6 +75,12 @@ let queryItems = try! encoder.encode(query)
 // ]
 ```
 
+> ℹ️ Note
+>
+> The default unkeyed container encoding strategy is `.ordered`, which encodes array elements with indexed keys
+> (e.g. `array.0`, `array.1`, etc.) which isn't compliant with the [WHATWG URL Standard](https://url.spec.whatwg.org/#interface-urlsearchparams) (section 5.2).
+> The correct strategy to use for compliance is `.repeated`.
+
 ### Decoding
 
 `URLQueryItemDecoder` can be configured through its initializer or `strategy` property.
