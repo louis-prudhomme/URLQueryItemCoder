@@ -611,7 +611,7 @@ public extension CodableTestTypes {
         public let thisIsAnInt16: Int16
         public let thisIsAnInt32: Int32
         public let thisIsAnInt64: Int64
-        public let thisIsAnOptional: Optional<String>
+        public let thisIsAnOptional: String?
         public let thisIsAString: String
         public let thisIsAUint: UInt
         public let thisIsAUint8: UInt8

@@ -28,7 +28,7 @@ extension String {
             return String()
         }
 
-        var previousCharacter: Character? = nil
+        var previousCharacter: Character?
         var snakeCase: [Character] = []
 
         for index in indices {
