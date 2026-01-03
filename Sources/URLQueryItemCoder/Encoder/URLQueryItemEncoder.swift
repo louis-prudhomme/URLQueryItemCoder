@@ -35,6 +35,7 @@ public struct URLQueryItemEncoder {
         dateStrategy: DateEncodingStrategy = .default,
         keyStrategy: KeyEncodingStrategy = .default,
         nonConformingFloatStrategy: NonConformingFloatEncodingStrategy = .default,
+        unkeyedContainerStrategy: UnkeyedContainerEncodingStrategy = .default,
         outputFormatting: OutputFormatting = .default
     ) {
         self.init(
@@ -42,7 +43,8 @@ public struct URLQueryItemEncoder {
                 dataStrategy: dataStrategy,
                 dateStrategy: dateStrategy,
                 keyStrategy: keyStrategy,
-                nonConformingFloatStrategy: nonConformingFloatStrategy
+                nonConformingFloatStrategy: nonConformingFloatStrategy,
+                unkeyedContainerStrategy: unkeyedContainerStrategy
             ),
             outputFormatting: outputFormatting
         )

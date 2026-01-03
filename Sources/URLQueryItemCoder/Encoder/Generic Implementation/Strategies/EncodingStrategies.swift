@@ -22,6 +22,9 @@ public struct EncodingStrategies {
     /// The strategy to use for non-conforming floating-point values (IEEE 754 infinity and NaN).
     public var nonConformingFloatStrategy: NonConformingFloatEncodingStrategy
 
+    /// The strategy to use for non-conforming floating-point values (IEEE 754 infinity and NaN).
+    public var unkeyedContainerStrategy: UnkeyedContainerEncodingStrategy
+
     // MARK: Public Initialization
 
     /// Creates a new collection of encoding strategies for encoding `Encodable` values.
@@ -38,11 +41,13 @@ public struct EncodingStrategies {
         dataStrategy: DataEncodingStrategy = .default,
         dateStrategy: DateEncodingStrategy = .default,
         keyStrategy: KeyEncodingStrategy = .default,
-        nonConformingFloatStrategy: NonConformingFloatEncodingStrategy = .default
+        nonConformingFloatStrategy: NonConformingFloatEncodingStrategy = .default,
+        unkeyedContainerStrategy: UnkeyedContainerEncodingStrategy = .default
     ) {
         self.dataStrategy = dataStrategy
         self.dateStrategy = dateStrategy
         self.keyStrategy = keyStrategy
         self.nonConformingFloatStrategy = nonConformingFloatStrategy
+        self.unkeyedContainerStrategy = unkeyedContainerStrategy
     }
 }
