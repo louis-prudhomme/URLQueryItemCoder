@@ -67,7 +67,7 @@ public struct URLQueryItemEncoder {
     private func encode(
         _ container: EncodingContainer?,
         at key: String = String(),
-        into dictionaryRepresentation: inout [String: String?]
+        into kvRepresentation: inout [(name: String, value: String?)]
     ) {
         guard let container else {
             return
@@ -79,28 +79,28 @@ public struct URLQueryItemEncoder {
         case let .keyed(keyedContainer):
             if keyedContainer.children.isEmpty {
                 if !key.isEmpty {
-                    dictionaryRepresentation[key] = String()
+                    kvRepresentation.append((name: key, value: String()))
                 }
             } else {
                 for (subKey, childContainer) in keyedContainer.children {
                     let nextKey = "\(key)\(separator)\(subKey)"
-                    encode(childContainer, at: nextKey, into: &dictionaryRepresentation)
+                    encode(childContainer, at: nextKey, into: &kvRepresentation)
                 }
             }
         case let .lowLevelEncoder(lowLevelEncoder):
             guard let childContainer = lowLevelEncoder.container else {
                 preconditionFailure("Nothing was never encoded to nested low level encoder.")
             }
-            encode(childContainer, at: key, into: &dictionaryRepresentation)
+            encode(childContainer, at: key, into: &kvRepresentation)
         case let .singleValue(singleValueContainer):
             switch singleValueContainer.storage {
             case let .container(childContainer):
-                encode(childContainer, at: key, into: &dictionaryRepresentation)
+                encode(childContainer, at: key, into: &kvRepresentation)
             case let .primitive(value):
                 if let value {
-                    dictionaryRepresentation[key] = String(describing: value)
+                    kvRepresentation.append((name: key, value: String(describing: value)))
                 } else if !key.isEmpty {
-                    dictionaryRepresentation.updateValue(nil, forKey: key)
+                    kvRepresentation.append((name: key, value: nil))
                 }
             case .none:
                 preconditionFailure("Value was never encoded to single value container.")
@@ -108,8 +108,12 @@ public struct URLQueryItemEncoder {
         case let .unkeyed(unkeyedContainer):
             for index in unkeyedContainer.children.indices {
                 let childContainer = unkeyedContainer.children[index]
-                let nextKey = "\(key)\(separator)\(index)"
-                encode(childContainer, at: nextKey, into: &dictionaryRepresentation)
+                let nextKey = switch strategies.unkeyedContainerStrategy {
+                case .ordered: "\(key)\(separator)\(index)"
+                case .repeated: key.isEmpty ? "\(index)" : key
+                }
+
+                encode(childContainer, at: nextKey, into: &kvRepresentation)
             }
         }
     }
@@ -127,16 +131,16 @@ extension URLQueryItemEncoder: TopLevelEncoder {
     public func encode(_ value: some Encodable) throws -> [URLQueryItem] {
         let container = try EncodingContainer.encodeWithSpecialTreatment(value, at: [], using: strategies)
 
-        var dictionaryRepresentation: [String: String?] = [:]
+        var kvRepresentation: [(name: String, value: String?)] = []
 
-        encode(container, into: &dictionaryRepresentation)
+        encode(container, into: &kvRepresentation)
 
-        let queryItems = dictionaryRepresentation.map(URLQueryItem.init)
+        let result = kvRepresentation.map { URLQueryItem(name: $0.name, value: $0.value) }
 
         if outputFormatting.contains(.sortedKeys) {
-            return queryItems.sorted { $0.name < $1.name }
+            return result.sorted { $0.name < $1.name }
         } else {
-            return queryItems
+            return result
         }
     }
 }
