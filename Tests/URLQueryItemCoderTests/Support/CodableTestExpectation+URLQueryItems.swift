@@ -88,7 +88,7 @@ public extension CodableTestExpectation where Value == [URLQueryItem] {
             ]
         } singleValueDateFormatted: { _, _ in
             [
-                URLQueryItem(name: "", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
+                URLQueryItem(name: "", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
             ]
         } singleValueDateISO8601: { _, _ in
             [
@@ -275,7 +275,7 @@ public extension CodableTestExpectation where Value == [URLQueryItem] {
         } keyedValueDateFormatted: { _, _ in
             [
                 URLQueryItem(name: "bool", value: "true"),
-                URLQueryItem(name: "date", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
+                URLQueryItem(name: "date", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
                 URLQueryItem(name: "double", value: "123.45"),
                 URLQueryItem(name: "float", value: "543.21"),
                 URLQueryItem(name: "int", value: "10"),
@@ -598,8 +598,8 @@ public extension CodableTestExpectation where Value == [URLQueryItem] {
             ]
         } unkeyedValueDateFormatted: { _, _ in
             [
-                URLQueryItem(name: "0", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
-                URLQueryItem(name: "1", value: "Monday, January 12, 1970 at 1:46:40 PM Greenwich Mean Time"),
+                URLQueryItem(name: "0", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
+                URLQueryItem(name: "1", value: "Monday, January 12, 1970 at 1:46:40 PM Greenwich Mean Time"),
             ]
         } unkeyedValueDateISO8601: { _, _ in
             [
