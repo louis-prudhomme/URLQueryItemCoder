@@ -1,5 +1,5 @@
 //
-//  XCTAssertEncodable.swift
+//  XCTAssertEncoder.swift
 //  URLQueryItemCoder
 //
 //  Created by Kyle Hughes on 12/29/22.
@@ -19,7 +19,7 @@ public func XCTAssertEncoder<Encoder, Input>(
 ) where Encoder: TopLevelEncoder, Encoder.Output: Equatable, Input: Encodable {
     do {
         let encodedValue = try encoder.encode(value)
-        
+
         XCTAssertEqual(encodedValue, expectation(), file: file, line: line)
     } catch {
         XCTFail(error.localizedDescription)
@@ -37,7 +37,7 @@ public func XCTAssertEncoder<Encoder, Input>(
 ) where Encoder: TopLevelEncoder, Encoder.Output: Equatable, Input: Encodable {
     do {
         let encodedValue = try encoder(configuration).encode(value)
-        
+
         XCTAssertEqual(
             prepareForEqualityAssertion(encodedValue),
             prepareForEqualityAssertion(expectation(value, configuration)),

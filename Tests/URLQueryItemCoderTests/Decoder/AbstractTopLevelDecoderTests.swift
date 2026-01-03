@@ -12,33 +12,33 @@ import XCTest
 
 public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopLevelDecoder, Target.Input: Equatable {
     // MARK: Public Abstract Interface
-    
+
     public var expectedValues: CodableTestExpectation<Target.Input> {
         fatalErrorForUnimplementedAbstractInterface()
     }
 
-    public func target(using configuration: DecodingStrategies = .default) -> Target {
+    public func target(using _: DecodingStrategies = .default) -> Target {
         fatalErrorForUnimplementedAbstractInterface()
     }
-    
+
     // MARK: Public Class Interface
-    
+
     public class var isAbstractTestCase: Bool {
         self == AbstractTopLevelDecoderTests.self
     }
-    
+
     // MARK: XCTestCase Implementation
-    
-    override class public var defaultTestSuite: XCTestSuite {
+
+    override public class var defaultTestSuite: XCTestSuite {
         guard isAbstractTestCase else {
             return super.defaultTestSuite
         }
 
         return XCTestSuite(name: "Empty Suite for \(Self.self)")
     }
-    
+
     // MARK: Single Value Primitive Tests
-    
+
     public func test_singleValue_bool() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -50,7 +50,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: true
         )
     }
-    
+
     public func test_singleValue_int() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -62,7 +62,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 10
         )
     }
-    
+
     public func test_singleValue_int8() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -74,7 +74,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 20
         )
     }
-    
+
     public func test_singleValue_int16() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -86,7 +86,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 30
         )
     }
-    
+
     public func test_singleValue_int32() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -98,7 +98,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 40
         )
     }
-    
+
     public func test_singleValue_int64() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -110,16 +110,16 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 50
         )
     }
-        
+
     public func test_singleValue_nil() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let inputValue = expectedValues.singleValueNil(nil, .default)
         let decodedValue = try target(using: .default).decode(String?.self, from: inputValue)
-        
+
         XCTAssertEqual(decodedValue, nil as String?)
     }
-    
+
     public func test_singleValue_string() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -131,7 +131,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: "DEFAULT CONSTANT"
         )
     }
-    
+
     public func test_singleValue_uint() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -143,7 +143,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 60
         )
     }
-    
+
     public func test_singleValue_uint8() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -155,7 +155,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 70
         )
     }
-    
+
     public func test_singleValue_uint16() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -167,7 +167,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 80
         )
     }
-    
+
     public func test_singleValue_uint32() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -179,7 +179,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 90
         )
     }
-    
+
     public func test_singleValue_uint64() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
@@ -191,12 +191,12 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: 100
         )
     }
-    
+
     // MARK: Single Value Data Tests
-    
+
     public func test_singleValue_data_base64() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.singleValueDataBase64,
@@ -205,16 +205,16 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: Data([0xDE, 0xAD, 0xBE, 0xEF])
         )
     }
-    
+
     public func test_singleValue_data_custom() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         // We'll encode a number instead of data
-        let encode: @Sendable (Data, Encoder) throws -> Void = { date, encoder in
+        let encode: @Sendable (Data, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
-        let decode: @Sendable (Decoder) throws -> Data = { encoder in
+        let decode: @Sendable (Decoder) throws -> Data = { _ in
             Data([0xDE, 0xAD, 0xBE, 0xEF])
         }
 
@@ -226,10 +226,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: Data([0xDE, 0xAD, 0xBE, 0xEF])
         )
     }
-    
+
     public func test_singleValue_data_deferredToData() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.singleValueDataDeferredToData,
@@ -238,19 +238,19 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: Data([0xDE, 0xAD, 0xBE, 0xEF])
         )
     }
-    
+
     // MARK: Single Value Date Tests
-    
+
     public func test_singleValue_date_custom() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         // We'll encode a number instead of a date
-        let encode: (Date, Encoder) throws -> Void = { date, encoder in
+        let encode: (Date, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
-        let decode: @Sendable (Decoder) throws -> Date = { encoder in
-            Date(timeIntervalSince1970: 1_000)
+        let decode: @Sendable (Decoder) throws -> Date = { _ in
+            Date(timeIntervalSince1970: 1000)
         }
 
         XCTAssertDecoder(
@@ -258,19 +258,19 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodes: expectedValues.singleValueDateDeferredToDate,
             encodedWith: EncodingStrategies(dateStrategy: .custom(encode)),
             decodedWith: DecodingStrategies(dateStrategy: .custom(decode)),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
     public func test_singleValue_date_deferredToDate() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.singleValueDateDeferredToDate,
             encodedWith: EncodingStrategies(dateStrategy: .deferredToDate),
             decodedWith: DecodingStrategies(dateStrategy: .deferredToDate),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
@@ -288,7 +288,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodes: expectedValues.singleValueDateFormatted,
             encodedWith: EncodingStrategies(dateStrategy: .formatted(formatter)),
             decodedWith: DecodingStrategies(dateStrategy: .formatted(formatter)),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
@@ -300,7 +300,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodes: expectedValues.singleValueDateISO8601,
             encodedWith: EncodingStrategies(dateStrategy: .iso8601),
             decodedWith: DecodingStrategies(dateStrategy: .iso8601),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
@@ -312,7 +312,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodes: expectedValues.singleValueDateMillisecondsSince1970,
             encodedWith: EncodingStrategies(dateStrategy: .millisecondsSince1970),
             decodedWith: DecodingStrategies(dateStrategy: .millisecondsSince1970),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
@@ -324,7 +324,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodes: expectedValues.singleValueDateSecondsSince1970,
             encodedWith: EncodingStrategies(dateStrategy: .secondsSince1970),
             decodedWith: DecodingStrategies(dateStrategy: .secondsSince1970),
-            as: Date(timeIntervalSince1970: 1_000)
+            as: Date(timeIntervalSince1970: 1000)
         )
     }
 
@@ -342,7 +342,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_singleValue_double_convertToString_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -357,11 +357,11 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectation = Double.nan
         let inputValue = expectedValues.singleValueDoubleConvertToStringNaN(expectation, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(Double.self, from: inputValue)
-        
+
         XCTAssertEqual(decodedValue.isNaN, expectation.isNaN)
     }
 
@@ -412,7 +412,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: .infinity
         )
     }
-    
+
     // TODO: Make the floating point throwing code path throw the appropriate error.
     // The error that is thrown is an error about being unable to decode a number from (e.g.) "notANumber". That is
     // because… we need a way to represent the number in the format we are saying it cannot be represented in. May
@@ -499,7 +499,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_singleValue_float_convertToString_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -514,11 +514,11 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectation = Float.nan
         let inputValue = expectedValues.singleValueFloatConvertToStringNaN(expectation, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(Double.self, from: inputValue)
-        
+
         XCTAssertEqual(decodedValue.isNaN, expectation.isNaN)
     }
 
@@ -635,12 +635,12 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             )
         )
     }
-    
+
     // MARK: Keyed Value Tests
 
     public func test_keyedValue_default() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueDefault,
@@ -652,7 +652,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_empty() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueEmpty,
@@ -678,7 +678,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_inheritance_keyedValue_default() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.inheritanceKeyedValueDefault,
@@ -690,7 +690,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_inheritance_keyedValue_empty() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.inheritanceKeyedValueEmpty,
@@ -716,7 +716,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_data_base64() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueDataBase64,
@@ -730,11 +730,11 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
         try XCTSkipIf(Self.isAbstractTestCase)
 
         // We'll encode a number instead of data
-        let encode: @Sendable (Data, Encoder) throws -> Void = { date, encoder in
+        let encode: @Sendable (Data, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
-        let decode: @Sendable (Decoder) throws -> Data = { encoder in
+        let decode: @Sendable (Decoder) throws -> Data = { _ in
             Data([0xDE, 0xAD, 0xBE, 0xEF])
         }
 
@@ -765,12 +765,12 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
         try XCTSkipIf(Self.isAbstractTestCase)
 
         // We'll encode a number instead of a date
-        let encode: (Date, Encoder) throws -> Void = { date, encoder in
+        let encode: (Date, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
-        let decode: @Sendable (Decoder) throws -> Date = { encoder in
-            Date(timeIntervalSince1970: 1_000)
+        let decode: @Sendable (Decoder) throws -> Date = { _ in
+            Date(timeIntervalSince1970: 1000)
         }
 
         XCTAssertDecoder(
@@ -864,7 +864,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_double_convertToString_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueDoubleConvertToStringNegativeInfinity,
@@ -888,7 +888,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_double_convertToString_notANumber() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -903,14 +903,14 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectation = CodableTestTypes.SingleValueProperties.Abridged.doubleNotANumber
         let inputValue = expectedValues.keyedValueDoubleConvertToStringNaN(expectation, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(
             CodableTestTypes.SingleValueProperties.Abridged.self,
             from: inputValue
         )
-        
+
         XCTAssertEqual(decodedValue.bool, expectation.bool)
         XCTAssertEqual(decodedValue.data, expectation.data)
         XCTAssertEqual(decodedValue.date, expectation.date)
@@ -944,53 +944,53 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: CodableTestTypes.SingleValueProperties.Abridged.doublePositiveInfinity
         )
     }
-    
+
     public func test_keyedValue_double_throw_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.doubleNotANumber
         let encodedValue = expectedValues.keyedValueDoubleConvertToStringNaN(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_keyedValue_double_throw_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.doubleNotANumber
         let encodedValue = expectedValues.keyedValueDoubleConvertToStringNegativeInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_keyedValue_double_throw_positiveInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.doubleNotANumber
         let encodedValue = expectedValues.keyedValueDoubleConvertToStringPositiveInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
@@ -1012,7 +1012,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_float_convertToString_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueFloatConvertToStringNegativeInfinity,
@@ -1036,7 +1036,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_float_convertToString_notANumber() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -1051,14 +1051,14 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectation = CodableTestTypes.SingleValueProperties.Abridged.floatNotANumber
         let encodedValue = expectedValues.keyedValueFloatConvertToStringNaN(expectation, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(
             CodableTestTypes.SingleValueProperties.Abridged.self,
             from: encodedValue
         )
-        
+
         XCTAssertEqual(decodedValue.bool, expectation.bool)
         XCTAssertEqual(decodedValue.data, expectation.data)
         XCTAssertEqual(decodedValue.date, expectation.date)
@@ -1092,53 +1092,53 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             as: CodableTestTypes.SingleValueProperties.Abridged.floatPositiveInfinity
         )
     }
-    
+
     public func test_keyedValue_float_throw_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.floatNotANumber
         let encodedValue = expectedValues.keyedValueFloatConvertToStringNaN(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_keyedValue_float_throw_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.floatNotANumber
         let encodedValue = expectedValues.keyedValueFloatConvertToStringNegativeInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_keyedValue_float_throw_positiveInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue = CodableTestTypes.SingleValueProperties.Abridged.floatNotANumber
         let encodedValue = expectedValues.keyedValueFloatConvertToStringPositiveInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
@@ -1148,7 +1148,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_keyedValue_key_custom() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let keyEncoder: @Sendable ([CodingKey]) -> CodingKey = {
             guard let last = $0.last else {
                 return StringCodingKey(stringValue: String())
@@ -1156,10 +1156,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
             return StringCodingKey(stringValue: last.stringValue.uppercased())
         }
-        
+
         let encodingStrategies = EncodingStrategies(keyStrategy: .custom(keyEncoder))
         let decodingStrategies = DecodingStrategies(keyStrategy: .custom(keyEncoder))
-        
+
         XCTAssertDecoder(
             target,
             decodes: expectedValues.keyedValueKeyCustom,
@@ -1197,10 +1197,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_bool() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [true, false]
         let encodedValue = expectedValues.unkeyedValueBool(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1213,10 +1213,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_int() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [Int(Int32.min), Int(Int32.max)]
         let encodedValue = expectedValues.unkeyedValueInt(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1229,10 +1229,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_int8() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [Int8.min, Int8.max]
         let encodedValue = expectedValues.unkeyedValueInt8(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1248,7 +1248,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [Int16.min, Int16.max]
         let encodedValue = expectedValues.unkeyedValueInt16(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1264,7 +1264,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [Int32.min, Int32.max]
         let encodedValue = expectedValues.unkeyedValueInt32(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1280,7 +1280,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [Int64.min, Int64.max]
         let encodedValue = expectedValues.unkeyedValueInt64(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1296,7 +1296,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [String?.none, String?.none]
         let encodedValue = expectedValues.unkeyedValueNil(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1312,7 +1312,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = Array(repeating: "DEFAULT CONSTANT", count: 2)
         let encodedValue = expectedValues.unkeyedValueString(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1325,10 +1325,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_uint() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [UInt(UInt32.min), UInt(UInt32.max)]
         let encodedValue = expectedValues.unkeyedValueUInt(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1341,10 +1341,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_uint8() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [UInt8.min, UInt8.max]
         let encodedValue = expectedValues.unkeyedValueUInt8(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1360,7 +1360,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [UInt16.min, UInt16.max]
         let encodedValue = expectedValues.unkeyedValueUInt16(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1376,7 +1376,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [UInt32.min, UInt32.max]
         let encodedValue = expectedValues.unkeyedValueUInt32(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1392,7 +1392,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies.default
         let decodingStrategies = DecodingStrategies.default
-        
+
         let expectedValue = [UInt64.min, UInt64.max]
         let encodedValue = expectedValues.unkeyedValueUInt64(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1407,10 +1407,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_data_base64() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(dataStrategy: .base64)
         let decodingStrategies = DecodingStrategies(dataStrategy: .base64)
-        
+
         let expectedValue = [
             Data([0xDE, 0xAD, 0xBE, 0xEF]),
             Data([0xAB, 0xCD, 0xEF, 0x00]),
@@ -1428,7 +1428,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
         try XCTSkipIf(Self.isAbstractTestCase)
 
         // We'll encode a number instead of a date
-        let encode: @Sendable (Data, Encoder) throws -> Void = { data, encoder in
+        let encode: @Sendable (Data, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
@@ -1437,7 +1437,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
         }
         let encodingStrategies = EncodingStrategies(dataStrategy: .custom(encode))
         let decodingStrategies = DecodingStrategies(dataStrategy: .custom(decode))
-        
+
         let expectedValue = [
             Data([0xDE, 0xAD, 0xBE, 0xEF]),
             Data([0xDE, 0xAD, 0xBE, 0xEF]),
@@ -1456,7 +1456,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies(dataStrategy: .deferredToData)
         let decodingStrategies = DecodingStrategies(dataStrategy: .deferredToData)
-        
+
         let expectedValue = [
             Data([0xDE, 0xAD, 0xBE, 0xEF]),
             Data([0xAB, 0xCD, 0xEF, 0x00]),
@@ -1474,21 +1474,21 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_date_custom() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         // We'll encode a number instead of a date
-        let encode: @Sendable (Date, Encoder) throws -> Void = { data, encoder in
+        let encode: @Sendable (Date, Encoder) throws -> Void = { _, encoder in
             var container = encoder.singleValueContainer()
             try container.encode(42)
         }
         let decode: @Sendable (Decoder) throws -> Date = { _ in
-            Date(timeIntervalSince1970: 1_000)
+            Date(timeIntervalSince1970: 1000)
         }
         let encodingStrategies = EncodingStrategies(dateStrategy: .custom(encode))
         let decodingStrategies = DecodingStrategies(dateStrategy: .custom(decode))
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
+            Date(timeIntervalSince1970: 1000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateCustom(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1501,12 +1501,12 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_date_deferredToDate() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(dateStrategy: .deferredToDate)
         let decodingStrategies = DecodingStrategies(dateStrategy: .deferredToDate)
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
             Date(timeIntervalSince1970: 1_000_000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateDeferredToDate(expectedValue, encodingStrategies)
@@ -1529,9 +1529,9 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies(dateStrategy: .formatted(formatter))
         let decodingStrategies = DecodingStrategies(dateStrategy: .formatted(formatter))
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
             Date(timeIntervalSince1970: 1_000_000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateFormatted(expectedValue, encodingStrategies)
@@ -1548,9 +1548,9 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies(dateStrategy: .iso8601)
         let decodingStrategies = DecodingStrategies(dateStrategy: .iso8601)
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
             Date(timeIntervalSince1970: 1_000_000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateISO8601(expectedValue, encodingStrategies)
@@ -1567,9 +1567,9 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies(dateStrategy: .millisecondsSince1970)
         let decodingStrategies = DecodingStrategies(dateStrategy: .millisecondsSince1970)
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
             Date(timeIntervalSince1970: 1_000_000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateMillisecondsSince1970(expectedValue, encodingStrategies)
@@ -1586,9 +1586,9 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
         let encodingStrategies = EncodingStrategies(dateStrategy: .secondsSince1970)
         let decodingStrategies = DecodingStrategies(dateStrategy: .secondsSince1970)
-        
+
         let expectedValue = [
-            Date(timeIntervalSince1970: 1_000),
+            Date(timeIntervalSince1970: 1000),
             Date(timeIntervalSince1970: 1_000_000),
         ]
         let encodedValue = expectedValues.unkeyedValueDateSecondsSince1970(expectedValue, encodingStrategies)
@@ -1604,13 +1604,13 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_double() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .default)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .default)
-        
+
         let expectedValue = [
             123.45,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDouble(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1623,7 +1623,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_double_convertToString_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -1638,10 +1638,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue = [
             Double.nan,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringNaN(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1668,10 +1668,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue = [
             Double.infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringPositiveInfinity(
             expectedValue,
@@ -1702,10 +1702,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue = [
             -Double.infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringNegativeInfinity(
             expectedValue,
@@ -1718,62 +1718,62 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodedValue
         )
     }
-    
+
     public func test_unkeyedValue_double_throw_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Double] = [
             .nan,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringNaN(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_unkeyedValue_double_throw_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Double] = [
             -.infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringNegativeInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_unkeyedValue_double_throw_positiveInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Double] = [
             .infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueDoubleConvertToStringPositiveInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
@@ -1783,13 +1783,13 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_float() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .default)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .default)
-        
+
         let expectedValue: [Float] = [
             123.45,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloat(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1802,7 +1802,7 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
 
     public func test_unkeyedValue_float_convertToString_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let encodingStrategies = EncodingStrategies(
             nonConformingFloatStrategy: .convertToString(
                 positiveInfinity: "positiveInfinity",
@@ -1817,10 +1817,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue: [Float] = [
             .nan,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringNaN(expectedValue, encodingStrategies)
         let decodedValue = try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
@@ -1847,10 +1847,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue: [Float] = [
             .infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringPositiveInfinity(
             expectedValue,
@@ -1881,10 +1881,10 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
                 nan: "notANumber"
             )
         )
-        
+
         let expectedValue: [Float] = [
             -.infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringNegativeInfinity(
             expectedValue,
@@ -1897,62 +1897,62 @@ public class AbstractTopLevelDecoderTests<Target>: XCTestCase where Target: TopL
             decodedValue
         )
     }
-    
+
     public func test_unkeyedValue_float_throw_nan() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Float] = [
             .nan,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringNaN(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_unkeyedValue_float_throw_negativeInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Float] = [
             -.infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringNegativeInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )
     }
-    
+
     public func test_unkeyedValue_float_throw_positiveInfinity() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
 
         let encodingStrategies = EncodingStrategies(nonConformingFloatStrategy: .throw)
         let decodingStrategies = DecodingStrategies(nonConformingFloatStrategy: .throw)
-        
+
         let expectedValue: [Float] = [
             .infinity,
-            678910.11,
+            678_910.11,
         ]
         let encodedValue = expectedValues.unkeyedValueFloatConvertToStringPositiveInfinity(
             expectedValue,
             encodingStrategies
         )
-        
+
         XCTAssertThrowsError(
             try target(using: decodingStrategies).decode(type(of: expectedValue), from: encodedValue)
         )

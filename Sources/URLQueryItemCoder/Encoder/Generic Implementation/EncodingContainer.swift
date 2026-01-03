@@ -7,31 +7,31 @@
 
 import Foundation
 
-internal enum EncodingContainer {
+enum EncodingContainer {
     case keyed(Keyed)
     case lowLevelEncoder(LowLevelEncoder)
     case singleValue(SingleValue)
     case unkeyed(Unkeyed)
-    
+
     // MARK: Internal Static Interface
-    
-    internal static func encodeByDeferringToType<Value>(
+
+    static func encodeByDeferringToType<Value>(
         _ value: Value,
         at codingPath: [any CodingKey],
         using configuration: EncodingStrategies
     ) throws -> Self where Value: Encodable {
         let lowLevelEncoder = LowLevelEncoder(codingPath: codingPath, configuration: configuration)
-        
+
         try value.encode(to: lowLevelEncoder)
-        
+
         guard let container = lowLevelEncoder.container else {
             preconditionFailure("Encodable type \(Value.self) was not encoded by low level encoder.")
         }
-        
+
         return container
     }
-    
-    internal static func encodeWithSpecialTreatment<Value>(
+
+    static func encodeWithSpecialTreatment<Value>(
         _ value: Value,
         at codingPath: [any CodingKey],
         using configuration: EncodingStrategies

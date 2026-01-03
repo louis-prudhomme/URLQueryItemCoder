@@ -12,12 +12,12 @@ import Foundation
 public struct URLQueryItemEncoder {
     /// The strategies used by this encoder for encoding `Encodable` values.
     public var strategies: EncodingStrategies
-    
+
     /// The formatting settings used on the output of the encoder.
     public var outputFormatting: OutputFormatting
-    
+
     // MARK: Public Initialization
-    
+
     /// Creates a new, reusable `URLQueryItem` encoder.
     ///
     /// The default formatting settings and encoding strategies are used if none are supplied.
@@ -47,7 +47,7 @@ public struct URLQueryItemEncoder {
             outputFormatting: outputFormatting
         )
     }
-    
+
     /// Creates a new, reusable `URLQueryItem` encoder.
     ///
     /// The default formatting settings and encoding strategies are used if none are supplied.
@@ -59,7 +59,7 @@ public struct URLQueryItemEncoder {
         self.strategies = strategies
         self.outputFormatting = outputFormatting
     }
-    
+
     // MARK: Private Instance Interface
 
     private func encode(
@@ -70,9 +70,9 @@ public struct URLQueryItemEncoder {
         guard let container else {
             return
         }
-        
+
         let separator = key.isEmpty ? "" : "."
-        
+
         switch container {
         case let .keyed(keyedContainer):
             if keyedContainer.children.isEmpty {
@@ -117,20 +117,20 @@ public struct URLQueryItemEncoder {
 
 extension URLQueryItemEncoder: TopLevelEncoder {
     // MARK: Public Instance Interface
-    
+
     /// Encodes an instance of the indicated type.
     ///
     /// - Parameter value: The instance to encode.
     /// - Returns: The query items that represent the given value.
     public func encode(_ value: some Encodable) throws -> [URLQueryItem] {
         let container = try EncodingContainer.encodeWithSpecialTreatment(value, at: [], using: strategies)
-        
+
         var dictionaryRepresentation: [String: String?] = [:]
-        
+
         encode(container, into: &dictionaryRepresentation)
-        
+
         let queryItems = dictionaryRepresentation.map(URLQueryItem.init)
-        
+
         if outputFormatting.contains(.sortedKeys) {
             return queryItems.sorted { $0.name < $1.name }
         } else {

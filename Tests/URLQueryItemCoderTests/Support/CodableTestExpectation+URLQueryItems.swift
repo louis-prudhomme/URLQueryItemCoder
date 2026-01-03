@@ -7,61 +7,61 @@
 
 import Foundation
 
-extension CodableTestExpectation where Value == [URLQueryItem] {
+public extension CodableTestExpectation where Value == [URLQueryItem] {
     // MARK: Public Static Interface
-    
-    public static var urlQueryItems: Self {
+
+    static var urlQueryItems: Self {
         CodableTestExpectation {
             $0.sorted { $0.name < $1.name }
         } singleValueBool: { _, _ in
             [
-                URLQueryItem(name: "", value: "true")
+                URLQueryItem(name: "", value: "true"),
             ]
         } singleValueInt: { _, _ in
             [
-                URLQueryItem(name: "", value: "10")
+                URLQueryItem(name: "", value: "10"),
             ]
         } singleValueInt8: { _, _ in
             [
-                URLQueryItem(name: "", value: "20")
+                URLQueryItem(name: "", value: "20"),
             ]
         } singleValueInt16: { _, _ in
             [
-                URLQueryItem(name: "", value: "30")
+                URLQueryItem(name: "", value: "30"),
             ]
         } singleValueInt32: { _, _ in
             [
-                URLQueryItem(name: "", value: "40")
+                URLQueryItem(name: "", value: "40"),
             ]
         } singleValueInt64: { _, _ in
             [
-                URLQueryItem(name: "", value: "50")
+                URLQueryItem(name: "", value: "50"),
             ]
         } singleValueNil: { _, _ in
             []
         } singleValueString: { _, _ in
             [
-                URLQueryItem(name: "", value: "DEFAULT CONSTANT")
+                URLQueryItem(name: "", value: "DEFAULT CONSTANT"),
             ]
         } singleValueUInt: { _, _ in
             [
-                URLQueryItem(name: "", value: "60")
+                URLQueryItem(name: "", value: "60"),
             ]
         } singleValueUInt8: { _, _ in
             [
-                URLQueryItem(name: "", value: "70")
+                URLQueryItem(name: "", value: "70"),
             ]
         } singleValueUInt16: { _, _ in
             [
-                URLQueryItem(name: "", value: "80")
+                URLQueryItem(name: "", value: "80"),
             ]
         } singleValueUInt32: { _, _ in
             [
-                URLQueryItem(name: "", value: "90")
+                URLQueryItem(name: "", value: "90"),
             ]
         } singleValueUInt64: { _, _ in
             [
-                URLQueryItem(name: "", value: "100")
+                URLQueryItem(name: "", value: "100"),
             ]
         } singleValueDataBase64: { _, _ in
             [
@@ -80,59 +80,59 @@ extension CodableTestExpectation where Value == [URLQueryItem] {
             ]
         } singleValueDateCustom: { _, _ in
             [
-                URLQueryItem(name: "", value: "42")
+                URLQueryItem(name: "", value: "42"),
             ]
         } singleValueDateDeferredToDate: { _, _ in
             [
-                URLQueryItem(name: "", value: "-978306200")
+                URLQueryItem(name: "", value: "-978306200"),
             ]
         } singleValueDateFormatted: { _, _ in
             [
-                URLQueryItem(name: "", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time")
+                URLQueryItem(name: "", value: "Thursday, January 1, 1970 at 12:16:40 AM Greenwich Mean Time"),
             ]
         } singleValueDateISO8601: { _, _ in
             [
-                URLQueryItem(name: "", value: "1970-01-01T00:16:40Z")
+                URLQueryItem(name: "", value: "1970-01-01T00:16:40Z"),
             ]
         } singleValueDateMillisecondsSince1970: { _, _ in
             [
-                URLQueryItem(name: "", value: "1000000")
+                URLQueryItem(name: "", value: "1000000"),
             ]
         } singleValueDateSecondsSince1970: { _, _ in
             [
-                URLQueryItem(name: "", value: "1000")
+                URLQueryItem(name: "", value: "1000"),
             ]
         } singleValueDouble: { _, _ in
             [
-                URLQueryItem(name: "", value: "100")
+                URLQueryItem(name: "", value: "100"),
             ]
         } singleValueDoubleConvertToStringNaN: { _, _ in
             [
-                URLQueryItem(name: "", value: "notANumber")
+                URLQueryItem(name: "", value: "notANumber"),
             ]
         } singleValueDoubleConvertToStringNegativeInfinity: { _, _ in
             [
-                URLQueryItem(name: "", value: "negativeInfinity")
+                URLQueryItem(name: "", value: "negativeInfinity"),
             ]
         } singleValueDoubleConvertToStringPositiveInfinity: { _, _ in
             [
-                URLQueryItem(name: "", value: "positiveInfinity")
+                URLQueryItem(name: "", value: "positiveInfinity"),
             ]
         } singleValueFloat: { _, _ in
             [
-                URLQueryItem(name: "", value: "100")
+                URLQueryItem(name: "", value: "100"),
             ]
         } singleValueFloatConvertToStringNaN: { _, _ in
             [
-                URLQueryItem(name: "", value: "notANumber")
+                URLQueryItem(name: "", value: "notANumber"),
             ]
         } singleValueFloatConvertToStringNegativeInfinity: { _, _ in
             [
-                URLQueryItem(name: "", value: "negativeInfinity")
+                URLQueryItem(name: "", value: "negativeInfinity"),
             ]
         } singleValueFloatConvertToStringPositiveInfinity: { _, _ in
             [
-                URLQueryItem(name: "", value: "positiveInfinity")
+                URLQueryItem(name: "", value: "positiveInfinity"),
             ]
         } keyedValueDefault: { _, _ in
             [

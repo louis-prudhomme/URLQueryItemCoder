@@ -5,7 +5,7 @@
 //  Created by Kyle Hughes on 1/15/23.
 //
 
-internal enum EncodingPrimitiveValue {
+enum EncodingPrimitiveValue {
     case bool(Bool)
     case double(Double)
     case float(Float)
@@ -26,9 +26,9 @@ internal enum EncodingPrimitiveValue {
 
 extension EncodingPrimitiveValue: CustomStringConvertible {
     // MARK: Internal Instance Interface
-    
+
     @inlinable
-    internal var description: String {
+    var description: String {
         switch self {
         case let .bool(value):
             return String(value)

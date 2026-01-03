@@ -23,17 +23,17 @@ public enum DateDecodingStrategy {
     case millisecondsSince1970
     /// Decode the `Date` as a UNIX timestamp from a number.
     case secondsSince1970
-    
+
     // MARK: Public Static Interface
-    
+
     /// The default decoding strategy.
     ///
     /// Equals `.deferredToDate`.
     public static let `default`: Self = .deferredToDate
-    
+
     // MARK: Internal Instance Interface
-    
-    internal func decode<PrimitiveValue>(insideOf lowLevelDecoder: LowLevelDecoder<PrimitiveValue>) throws -> Date {
+
+    func decode<PrimitiveValue>(insideOf lowLevelDecoder: LowLevelDecoder<PrimitiveValue>) throws -> Date {
         switch self {
         case let .custom(closure):
             return try closure(lowLevelDecoder)
@@ -44,7 +44,7 @@ public enum DateDecodingStrategy {
                 at: lowLevelDecoder.codingPath
             )
             let stringValue = try singleValueContainer.decode(String.self)
-            
+
             guard let date = dateFormatter.date(from: stringValue) else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
@@ -53,7 +53,7 @@ public enum DateDecodingStrategy {
                     )
                 )
             }
-            
+
             return date
         case .iso8601:
             let singleValueContainer = try lowLevelDecoder.container.expectedSingleValueContainer(
@@ -61,9 +61,9 @@ public enum DateDecodingStrategy {
             )
             let dateFormatter = ISO8601DateFormatter()
             dateFormatter.formatOptions = .withInternetDateTime
-            
+
             let stringValue = try singleValueContainer.decode(String.self)
-            
+
             guard let date = dateFormatter.date(from: stringValue) else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
@@ -72,21 +72,21 @@ public enum DateDecodingStrategy {
                     )
                 )
             }
-            
+
             return date
         case .millisecondsSince1970:
             let singleValueContainer = try lowLevelDecoder.container.expectedSingleValueContainer(
                 at: lowLevelDecoder.codingPath
             )
-            let doubleValue = try singleValueContainer.decode(TimeInterval.self) / 1_000
-            
+            let doubleValue = try singleValueContainer.decode(TimeInterval.self) / 1000
+
             return Date(timeIntervalSince1970: doubleValue)
         case .secondsSince1970:
             let singleValueContainer = try lowLevelDecoder.container.expectedSingleValueContainer(
                 at: lowLevelDecoder.codingPath
             )
             let doubleValue = try singleValueContainer.decode(TimeInterval.self)
-            
+
             return Date(timeIntervalSince1970: doubleValue)
         }
     }

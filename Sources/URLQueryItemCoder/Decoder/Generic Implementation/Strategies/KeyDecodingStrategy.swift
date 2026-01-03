@@ -24,12 +24,12 @@ public enum KeyDecodingStrategy: Sendable {
     /// - Note: Using a key decoding strategy has a nominal performance cost, as each string key has to be inspected
     ///   for the `_` character.
     case convertFromSnakeCase
-    
+
     /// Provide a custom conversion from the key in the encoded JSON to the keys specified by the decoded types.
     ///
     /// The full path to the current decoding position is provided for context (in case you need to locate this key
     /// within the payload). The returned key is used in place of the last component in the coding path before decoding.
-    /// 
+    ///
     /// If the result of the conversion is a duplicate key, then only one value will be present in the container for
     /// the type to decode from.
     case custom(@Sendable (_ codingPath: [CodingKey]) -> CodingKey)
@@ -38,17 +38,17 @@ public enum KeyDecodingStrategy: Sendable {
     ///
     /// This is the default strategy.
     case useDefaultKeys
-    
+
     // MARK: Public Static Interface
-    
+
     /// The default decoding strategy.
     ///
     /// Equals `.useDefaultKeys`.
     public static let `default`: Self = .useDefaultKeys
-    
+
     // MARK: Internal Instance Interface
-    
-    internal func encode(_ key: any CodingKey, at codingPath: [any CodingKey]) -> any CodingKey {
+
+    func encode(_ key: any CodingKey, at codingPath: [any CodingKey]) -> any CodingKey {
         switch self {
         case .convertFromSnakeCase:
             return StringCodingKey(stringValue: key.stringValue.convertToSnakeCase())
@@ -59,4 +59,3 @@ public enum KeyDecodingStrategy: Sendable {
         }
     }
 }
-

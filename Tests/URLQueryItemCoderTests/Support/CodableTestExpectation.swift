@@ -11,11 +11,11 @@ import Foundation
 
 public struct CodableTestExpectation<Value> {
     public typealias Expectation<Other> = (Other, EncodingStrategies) -> Value
-    
+
     public let prepareForEqualityAssertion: (Value) -> Value
-    
+
     // MARK: Single Value Primitive Expectations
-    
+
     public let singleValueBool: Expectation<Bool>
     public let singleValueInt: Expectation<Int>
     public let singleValueInt8: Expectation<Int8>
@@ -29,89 +29,89 @@ public struct CodableTestExpectation<Value> {
     public let singleValueUInt16: Expectation<UInt16>
     public let singleValueUInt32: Expectation<UInt32>
     public let singleValueUInt64: Expectation<UInt64>
-    
+
     // MARK: Single Value Data Expectations
-    
+
     public let singleValueDataBase64: Expectation<Data>
     public let singleValueDataCustom: Expectation<Data>
     public let singleValueDataDeferredToData: Expectation<Data>
-    
+
     // MARK: Single Value Date Expectations
-    
+
     public let singleValueDateCustom: Expectation<Date>
     public let singleValueDateDeferredToDate: Expectation<Date>
     public let singleValueDateFormatted: Expectation<Date>
     public let singleValueDateISO8601: Expectation<Date>
     public let singleValueDateMillisecondsSince1970: Expectation<Date>
     public let singleValueDateSecondsSince1970: Expectation<Date>
-    
+
     // MARK: Single Value Double Expectations
-    
+
     public let singleValueDouble: Expectation<Double>
     public let singleValueDoubleConvertToStringNaN: Expectation<Double>
     public let singleValueDoubleConvertToStringNegativeInfinity: Expectation<Double>
     public let singleValueDoubleConvertToStringPositiveInfinity: Expectation<Double>
-    
+
     // MARK: Single Value Float Expectations
-    
+
     public let singleValueFloat: Expectation<Float>
     public let singleValueFloatConvertToStringNaN: Expectation<Float>
     public let singleValueFloatConvertToStringNegativeInfinity: Expectation<Float>
     public let singleValueFloatConvertToStringPositiveInfinity: Expectation<Float>
-    
+
     // MARK: Keyed Value Expectations
-    
+
     public let keyedValueDefault: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueEmpty: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValuePartial: Expectation<CodableTestTypes.SingleValueProperties>
-    
+
     // MARK: Keyed Value Inheritance Expectations
-    
+
     public let inheritanceKeyedValueDefault: Expectation<CodableTestTypes.SingleValueProperties.Subclass>
     public let inheritanceKeyedValueEmpty: Expectation<CodableTestTypes.SingleValueProperties.Subclass>
     public let inheritanceKeyedValuePartial: Expectation<CodableTestTypes.SingleValueProperties.Subclass>
-    
+
     // MARK: Keyed Value Data Expectations
-    
+
     public let keyedValueDataBase64: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueDataCustom: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueDataDeferredToData: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
-    
+
     // MARK: Keyed Value Date Expectations
-    
+
     public let keyedValueDateCustom: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueDateDeferredToDate: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueDateFormatted: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueDateISO8601: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueDateMillisecondsSince1970: Expectation<CodableTestTypes.SingleValueProperties>
     public let keyedValueDateSecondsSince1970: Expectation<CodableTestTypes.SingleValueProperties>
-    
+
     // MARK: Keyed Value Double Expectations
-    
+
     public let keyedValueDouble: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueDoubleConvertToStringNaN: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueDoubleConvertToStringNegativeInfinity: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueDoubleConvertToStringPositiveInfinity: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
-    
+
     // MARK: Keyed Value Float Expectations
-    
+
     public let keyedValueFloat: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueFloatConvertToStringNaN: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueFloatConvertToStringNegativeInfinity: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
     public let keyedValueFloatConvertToStringPositiveInfinity: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
-    
+
     // MARK: Keyed Value Key Expectations
-    
+
     public let keyedValueKeyCustom: Expectation<CodableTestTypes.KeyEncodingStrategy>
     public let keyedValueKeySnakeCase: Expectation<CodableTestTypes.KeyEncodingStrategy>
     public let keyedValueKeyUseDefaultKeys: Expectation<CodableTestTypes.KeyEncodingStrategy>
-    
+
     // MARK: Keyed Value Output Formatting Expectations
-    
+
     public let keyedValueSortedKeys: Expectation<CodableTestTypes.SingleValueProperties.Abridged>
-    
+
     // MARK: Unkeyed Value Primitive Expectations
-    
+
     public let unkeyedValueBool: Expectation<[Bool]>
     public let unkeyedValueInt: Expectation<[Int]>
     public let unkeyedValueInt8: Expectation<[Int8]>
@@ -125,38 +125,38 @@ public struct CodableTestExpectation<Value> {
     public let unkeyedValueUInt16: Expectation<[UInt16]>
     public let unkeyedValueUInt32: Expectation<[UInt32]>
     public let unkeyedValueUInt64: Expectation<[UInt64]>
-    
+
     // MARK: Unkeyed Value Data Expectations
-    
+
     public let unkeyedValueDataBase64: Expectation<[Data]>
     public let unkeyedValueDataCustom: Expectation<[Data]>
     public let unkeyedValueDataDeferredToData: Expectation<[Data]>
-    
+
     // MARK: Unkeyed Value Date Expectations
-    
+
     public let unkeyedValueDateCustom: Expectation<[Date]>
     public let unkeyedValueDateDeferredToDate: Expectation<[Date]>
     public let unkeyedValueDateFormatted: Expectation<[Date]>
     public let unkeyedValueDateISO8601: Expectation<[Date]>
     public let unkeyedValueDateMillisecondsSince1970: Expectation<[Date]>
     public let unkeyedValueDateSecondsSince1970: Expectation<[Date]>
-    
+
     // MARK: Unkeyed Value Double Expectations
-    
+
     public let unkeyedValueDouble: Expectation<[Double]>
     public let unkeyedValueDoubleConvertToStringNaN: Expectation<[Double]>
     public let unkeyedValueDoubleConvertToStringNegativeInfinity: Expectation<[Double]>
     public let unkeyedValueDoubleConvertToStringPositiveInfinity: Expectation<[Double]>
-    
+
     // MARK: Unkeyed Value Float Expectations
-    
+
     public let unkeyedValueFloat: Expectation<[Float]>
     public let unkeyedValueFloatConvertToStringNaN: Expectation<[Float]>
     public let unkeyedValueFloatConvertToStringNegativeInfinity: Expectation<[Float]>
     public let unkeyedValueFloatConvertToStringPositiveInfinity: Expectation<[Float]>
-    
+
     // MARK: Public Initialization
-    
+
     public init(
         prepareForEqualityAssertion: @escaping (Value) -> Value,
         singleValueBool: @escaping Expectation<Bool>,
@@ -348,7 +348,7 @@ public func expectedStringValue(
     guard let data else {
         return nil
     }
-    
+
     switch options.dataStrategy {
     case .base64:
         return data.base64EncodedString()
@@ -367,7 +367,7 @@ public func expectedStringValue(
     guard let date else {
         return nil
     }
-    
+
     switch options.dateStrategy {
     case .custom:
         return "42"
@@ -380,7 +380,7 @@ public func expectedStringValue(
     case .deferredToDate:
         return date.timeIntervalSinceReferenceDate.description
     case .millisecondsSince1970:
-        return (date.timeIntervalSince1970 * 1_000).description
+        return (date.timeIntervalSince1970 * 1000).description
     case .secondsSince1970:
         return date.timeIntervalSince1970.description
     }

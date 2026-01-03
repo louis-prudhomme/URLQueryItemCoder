@@ -7,15 +7,15 @@
 
 import Foundation
 
-extension URLQueryItem {
+public extension URLQueryItem {
     // MARK: Public Initialization
-    
-    public init(name: String, value: (some LosslessStringConvertible)?) {
+
+    init(name: String, value: (some LosslessStringConvertible)?) {
         guard let value else {
             self.init(name: name, value: nil)
             return
         }
-        
+
         self.init(name: name, value: String(value))
     }
 }

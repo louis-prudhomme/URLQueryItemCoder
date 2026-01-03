@@ -22,7 +22,7 @@ public func XCTAssertDecoder<Decoder, Output>(
     do {
         let inputValue = value(expectation, encodingStrategies)
         let decodedValue = try decoder(decodingStrategies).decode(Output.self, from: inputValue)
-        
+
         XCTAssertEqual(decodedValue, expectation, file: file, line: line)
     } catch {
         XCTFail(error.localizedDescription, file: file, line: line)

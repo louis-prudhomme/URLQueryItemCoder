@@ -7,20 +7,20 @@
 
 import Foundation
 
-internal final class LowLevelDecoder<PrimitiveValue> where PrimitiveValue: DecodingPrimitiveValue {
-    internal let container: DecodingContainer<PrimitiveValue>
-    internal let userInfo: [CodingUserInfoKey: Any]
-    
+final class LowLevelDecoder<PrimitiveValue> where PrimitiveValue: DecodingPrimitiveValue {
+    let container: DecodingContainer<PrimitiveValue>
+    let userInfo: [CodingUserInfoKey: Any]
+
     // MARK: Internal Initialization
-    
-    internal init(container: DecodingContainer<PrimitiveValue>) {
+
+    init(container: DecodingContainer<PrimitiveValue>) {
         self.container = container
-        
+
         userInfo = [:]
     }
-    
+
     // MARK: Internal Instance Interface
-    
+
     func decodeWithSpecialTreatment<Target>(as target: Target.Type) throws -> Target where Target: Decodable {
         switch target {
         case is Data.Type:
@@ -37,9 +37,9 @@ internal final class LowLevelDecoder<PrimitiveValue> where PrimitiveValue: Decod
 
 extension LowLevelDecoder: Decoder {
     // MARK: Internal Instance Interface
-    
+
     @inlinable
-    internal var codingPath: [any CodingKey] {
+    var codingPath: [any CodingKey] {
         switch container {
         case let .multiValue(multiValueContainer):
             return multiValueContainer.codingPath
@@ -47,9 +47,9 @@ extension LowLevelDecoder: Decoder {
             return singleValueContainer.codingPath
         }
     }
-    
+
     @inlinable
-    internal func container<Key>(keyedBy type: Key.Type) throws -> KeyedDecodingContainer<Key> where Key: CodingKey {
+    func container<Key>(keyedBy _: Key.Type) throws -> KeyedDecodingContainer<Key> where Key: CodingKey {
         switch container {
         case let .multiValue(multiValueContainer):
             return KeyedDecodingContainer(multiValueContainer.wrapped())
@@ -57,9 +57,9 @@ extension LowLevelDecoder: Decoder {
             return KeyedDecodingContainer(singleValueContainer.wrapped())
         }
     }
-    
+
     @inlinable
-    internal func singleValueContainer() throws -> SingleValueDecodingContainer {
+    func singleValueContainer() throws -> SingleValueDecodingContainer {
         switch container {
         case let .multiValue(multiValueContainer):
             return multiValueContainer
@@ -67,9 +67,9 @@ extension LowLevelDecoder: Decoder {
             return singleValueContainer
         }
     }
-    
+
     @inlinable
-    internal func unkeyedContainer() throws -> UnkeyedDecodingContainer {
+    func unkeyedContainer() throws -> UnkeyedDecodingContainer {
         switch container {
         case let .multiValue(multiValueContainer):
             return multiValueContainer

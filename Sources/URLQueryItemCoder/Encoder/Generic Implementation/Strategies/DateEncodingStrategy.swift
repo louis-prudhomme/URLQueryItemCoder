@@ -26,17 +26,17 @@ public enum DateEncodingStrategy {
     case millisecondsSince1970
     /// Encode the `Date` as a UNIX timestamp (as a number).
     case secondsSince1970
-    
+
     // MARK: Public Static Interface
-    
+
     /// The default encoding strategy.
     ///
     /// Equals `.deferredToDate`.
     public static let `default`: DateEncodingStrategy = .deferredToDate
-    
+
     // MARK: Internal Instance Interface
-    
-    internal func encode(
+
+    func encode(
         _ date: Date,
         at codingPath: [any CodingKey],
         using configuration: EncodingStrategies
@@ -44,42 +44,42 @@ public enum DateEncodingStrategy {
         switch self {
         case let .custom(closure):
             let lowLevelEncoder = LowLevelEncoder(codingPath: codingPath, configuration: configuration)
-            
+
             try closure(date, lowLevelEncoder)
-            
+
             guard let container = lowLevelEncoder.container else {
                 preconditionFailure("Date was not encoded by low level encoder.")
             }
-            
+
             return container
         case let .formatted(formatter):
             let container = EncodingContainer.SingleValue(codingPath: codingPath, configuration: configuration)
-            
+
             try container.encode(formatter.string(from: date))
-            
+
             return .singleValue(container)
         case .iso8601:
             let formatter = ISO8601DateFormatter()
             formatter.formatOptions = .withInternetDateTime
-            
+
             let container = EncodingContainer.SingleValue(codingPath: codingPath, configuration: configuration)
-            
+
             try container.encode(formatter.string(from: date))
-            
+
             return .singleValue(container)
         case .deferredToDate:
             return try .encodeByDeferringToType(date, at: codingPath, using: configuration)
         case .millisecondsSince1970:
             let container = EncodingContainer.SingleValue(codingPath: codingPath, configuration: configuration)
-            
-            try container.encode(date.timeIntervalSince1970 * 1_000)
-            
+
+            try container.encode(date.timeIntervalSince1970 * 1000)
+
             return .singleValue(container)
         case .secondsSince1970:
             let container = EncodingContainer.SingleValue(codingPath: codingPath, configuration: configuration)
-            
+
             try container.encode(date.timeIntervalSince1970)
-            
+
             return .singleValue(container)
         }
     }

@@ -9,21 +9,21 @@
 public struct DecodingStrategies {
     /// The collection initialized to all default values.
     public static let `default` = Self()
-    
+
     /// The strategy to use for encoding `Data` values.
     public var dataStrategy: DataDecodingStrategy
-    
+
     /// The strategy to use for encoding `Date` values.
     public var dateStrategy: DateDecodingStrategy
-    
+
     /// The strategy to use for automatically changing the value of keys before decoding.
     public var keyStrategy: KeyDecodingStrategy
-    
+
     /// The strategy to use for non-conforming floating-point values (IEEE 754 infinity and NaN).
     public var nonConformingFloatStrategy: NonConformingFloatDecodingStrategy
-    
+
     // MARK: Public Initialization
-    
+
     /// Creates a new collection of decoding strategies for decoding `Decodable` values.
     ///
     /// The default decoding strategies are used if none are supplied.

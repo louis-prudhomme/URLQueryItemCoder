@@ -27,10 +27,10 @@ public func XCTAssertEndToEndCoding<Encoder, Decoder>(
     do {
         let encoder = encoder(encodingStrategies)
         let encodedRepresentation = try encoder.encode(value)
-        
+
         let decoder = decoder(decodingStrategies)
         let decodedRepresentation = try decoder.decode(type(of: value), from: encodedRepresentation)
-        
+
         XCTAssertEqual(value, decodedRepresentation, file: file, line: line)
     } catch {
         XCTFail(error.localizedDescription, file: file, line: line)
@@ -54,10 +54,10 @@ public func XCTAssertEndToEndCoding<Encoder, Decoder>(
     do {
         let encoder = encoder(encodingStrategies)
         let encodedRepresentation = try encoder.encode(value)
-        
+
         let decoder = decoder(decodingStrategies)
         let decodedRepresentation = try decoder.decode(type(of: value), from: encodedRepresentation)
-        
+
         if value.isNaN {
             XCTAssertEqual(value.isNaN, decodedRepresentation.isNaN)
         } else {

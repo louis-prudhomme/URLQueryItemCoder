@@ -11,12 +11,12 @@ import XCTest
 
 final class URLQueryItemDecoderTests: AbstractTopLevelDecoderTests<URLQueryItemDecoder> {
     // MARK: AbstractTopLevelDecoderTest Implementation
-    
+
     override var expectedValues: CodableTestExpectation<[URLQueryItem]> {
         .urlQueryItems
     }
-    
-    override public func target(using strategies: DecodingStrategies = .default) -> URLQueryItemDecoder {
+
+    override func target(using strategies: DecodingStrategies = .default) -> URLQueryItemDecoder {
         URLQueryItemDecoder(strategies: strategies)
     }
 }

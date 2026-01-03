@@ -11,11 +11,11 @@ import XCTest
 
 final class URLQueryItemCoderEndToEndTests: AbstractEndToEndTests<URLQueryItemEncoder, URLQueryItemDecoder> {
     // MARK: AbstractEndToEndTests Implementation
-    
+
     override func decoder(using strategies: DecodingStrategies = .default) -> URLQueryItemDecoder {
         URLQueryItemDecoder(strategies: strategies)
     }
-    
+
     override func encoder(using strategies: EncodingStrategies = .default) -> URLQueryItemEncoder {
         URLQueryItemEncoder(strategies: strategies)
     }
@@ -25,15 +25,15 @@ final class URLQueryItemCoderEndToEndTests: AbstractEndToEndTests<URLQueryItemEn
 
 extension URLQueryItemCoderEndToEndTests {
     // MARK: Keyed Value Sorted Keys Tests
-    
-    public func test_keyedValue_sortedKeys() throws {
+
+    func test_keyedValue_sortedKeys() throws {
         try XCTSkipIf(Self.isAbstractTestCase)
-        
+
         let inputValue = CodableTestTypes.KeyEncodingStrategy.default
-        
+
         let encodedValue = try URLQueryItemEncoder(outputFormatting: .sortedKeys).encode(inputValue)
         let decodedValue = try URLQueryItemDecoder().decode(type(of: inputValue), from: encodedValue)
-        
+
         XCTAssertEqual(decodedValue, inputValue)
     }
 }

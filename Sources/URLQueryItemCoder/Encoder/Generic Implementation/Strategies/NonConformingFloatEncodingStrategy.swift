@@ -9,23 +9,23 @@
 public enum NonConformingFloatEncodingStrategy {
     /// Encode the values using the given representation strings.
     case convertToString(positiveInfinity: String, negativeInfinity: String, nan: String)
-    
+
     /// Throw upon encountering non-conforming values. This is the default strategy.
     case `throw`
-    
+
     // MARK: Public Static Interface
-    
+
     /// The default encoding strategy.
     ///
     /// Equals `.throw`.
     public static let `default`: Self = .throw
-    
+
     // MARK: Internal Instance Interface
-    
-    internal func encode<F>(
+
+    func encode<F>(
         _ float: F,
         at codingPath: [any CodingKey],
-        using configuration: EncodingStrategies
+        using _: EncodingStrategies
     ) throws -> EncodingPrimitiveValue where F: CustomStringConvertible & FloatingPoint {
         guard !float.isNaN, !float.isInfinite else {
             switch self {
@@ -54,11 +54,11 @@ public enum NonConformingFloatEncodingStrategy {
         }
 
         var string = float.description
-        
+
         if string.hasSuffix(".0") {
             string.removeLast(2)
         }
-        
+
         return .string(string)
     }
 }

@@ -13,29 +13,29 @@ public enum CodableTestTypes {
 
 // MARK: - CodableTestTypes.OmniValueProperties Definition
 
-extension CodableTestTypes {
-    public struct OmniValueProperties: Codable, Equatable {
+public extension CodableTestTypes {
+    struct OmniValueProperties: Codable, Equatable {
         public let one: SingleValueProperties?
         public let two: SingleValueProperties?
         public let three: [String?]?
         public let four: [String?]?
-        
+
         // MARK: Predefined Constants
-        
+
         public static let maximumValues = OmniValueProperties(
             one: .default,
             two: .default,
             three: Array(repeating: "THREE", count: 10),
             four: Array(repeating: "FOUR", count: 10)
         )
-        
+
         public static let minimumValues = OmniValueProperties(
             one: .default,
             two: .default,
             three: Array(repeating: "THREE", count: 10),
             four: Array(repeating: "FOUR", count: 10)
         )
-        
+
         public static let `nil` = OmniValueProperties(
             one: .partial,
             two: .partial,
@@ -47,8 +47,8 @@ extension CodableTestTypes {
 
 // MARK: - CodableTestTypes.SingleValueProperties Definition
 
-extension CodableTestTypes {
-    public struct SingleValueProperties: Codable, Equatable {
+public extension CodableTestTypes {
+    struct SingleValueProperties: Codable, Equatable {
         public let bool: Bool?
         public let date: Date?
         public let double: Double?
@@ -64,9 +64,9 @@ extension CodableTestTypes {
         public let uint16: UInt16?
         public let uint32: UInt32?
         public let uint64: UInt64?
-        
+
         // MARK: Predefined Constants
-        
+
         public static let empty = SingleValueProperties(
             bool: nil,
             date: nil,
@@ -84,10 +84,10 @@ extension CodableTestTypes {
             uint32: nil,
             uint64: nil
         )
-        
+
         public static let `default` = SingleValueProperties(
             bool: true,
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: 123.45,
             float: 543.21,
             int: 10,
@@ -102,7 +102,7 @@ extension CodableTestTypes {
             uint32: 90,
             uint64: 100
         )
-        
+
         public static let partial = SingleValueProperties(
             bool: true,
             date: nil,
@@ -125,8 +125,8 @@ extension CodableTestTypes {
 
 // MARK: - CodableTestTypes.SingleValueProperties.Abridged Definition
 
-extension CodableTestTypes.SingleValueProperties {
-    public struct Abridged: Codable, Equatable {
+public extension CodableTestTypes.SingleValueProperties {
+    struct Abridged: Codable, Equatable {
         public let bool: Bool
         public let data: Data
         public let date: Date
@@ -135,79 +135,79 @@ extension CodableTestTypes.SingleValueProperties {
         public let int: Int
         public let string: String
         public let uint: UInt
-        
+
         // MARK: Predefined Constants
 
         public static let `default` = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: 123.45,
             float: 543.21,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `doubleNegativeInfinity` = Self(
+
+        public static let doubleNegativeInfinity = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: -.infinity,
             float: 543.21,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `doubleNotANumber` = Self(
+
+        public static let doubleNotANumber = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: .nan,
             float: 543.21,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `doublePositiveInfinity` = Self(
+
+        public static let doublePositiveInfinity = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: .infinity,
             float: 543.21,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `floatNegativeInfinity` = Self(
+
+        public static let floatNegativeInfinity = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: 123.45,
             float: -.infinity,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `floatNotANumber` = Self(
+
+        public static let floatNotANumber = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: 123.45,
             float: .nan,
             int: 10,
             string: "DEFAULT CONSTANT",
             uint: 20
         )
-        
-        public static let `floatPositiveInfinity` = Self(
+
+        public static let floatPositiveInfinity = Self(
             bool: true,
             data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-            date: Date(timeIntervalSince1970: 1_000),
+            date: Date(timeIntervalSince1970: 1000),
             double: 123.45,
             float: .infinity,
             int: 10,
@@ -219,8 +219,8 @@ extension CodableTestTypes.SingleValueProperties {
 
 // MARK: - CodableTestTypes.SingleValueProperties.Superclass Definition
 
-extension CodableTestTypes.SingleValueProperties {
-    public class Superclass: Decodable, Encodable, Equatable {
+public extension CodableTestTypes.SingleValueProperties {
+    class Superclass: Decodable, Encodable, Equatable {
         public let bool: Bool?
         public let data: Data?
         public let date: Date?
@@ -231,9 +231,9 @@ extension CodableTestTypes.SingleValueProperties {
         public let int16: Int16?
         public let int32: Int32?
         public let int64: Int64?
-        
+
         // MARK: Public Initialization
-        
+
         public init(
             bool: Bool?,
             data: Data?,
@@ -257,12 +257,12 @@ extension CodableTestTypes.SingleValueProperties {
             self.int32 = int32
             self.int64 = int64
         }
-        
+
         // MARK: Decodable Implementation
-        
+
         public required init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             bool = try Self.decode(.bool, in: container)
             data = try Self.decode(.data, in: container)
             date = try Self.decode(.date, in: container)
@@ -274,27 +274,27 @@ extension CodableTestTypes.SingleValueProperties {
             int32 = try Self.decode(.int32, in: container)
             int64 = try Self.decode(.int64, in: container)
         }
-        
+
         // MARK: Equatable Implementation
-        
+
         public static func == (
             lhs: CodableTestTypes.SingleValueProperties.Superclass,
             rhs: CodableTestTypes.SingleValueProperties.Superclass
         ) -> Bool {
             lhs.bool == rhs.bool &&
-            lhs.data == rhs.data &&
-            lhs.date == rhs.date &&
-            lhs.double == rhs.double &&
-            lhs.float == rhs.float &&
-            lhs.int == rhs.int &&
-            lhs.int8 == rhs.int8 &&
-            lhs.int16 == rhs.int16 &&
-            lhs.int32 == rhs.int32 &&
-            lhs.int64 == rhs.int64
+                lhs.data == rhs.data &&
+                lhs.date == rhs.date &&
+                lhs.double == rhs.double &&
+                lhs.float == rhs.float &&
+                lhs.int == rhs.int &&
+                lhs.int8 == rhs.int8 &&
+                lhs.int16 == rhs.int16 &&
+                lhs.int32 == rhs.int32 &&
+                lhs.int64 == rhs.int64
         }
-        
+
         // MARK: Private Static Interface
-        
+
         private static func decode<Target>(
             _ key: CodingKeys,
             in container: KeyedDecodingContainer<CodingKeys>
@@ -302,10 +302,10 @@ extension CodableTestTypes.SingleValueProperties {
             guard try !container.decodeNil(forKey: key) else {
                 return nil
             }
-            
+
             return try container.decode(Target.self, forKey: key)
         }
-        
+
         private static func encode<Target>(
             _ key: CodingKeys,
             as value: Target?,
@@ -314,15 +314,15 @@ extension CodableTestTypes.SingleValueProperties {
             guard let value else {
                 return
             }
-            
+
             try container.encode(value, forKey: key)
         }
-        
+
         // MARK: Encodable Implementation
-        
+
         public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            
+
             try Self.encode(.bool, as: bool, in: &container)
             try Self.encode(.data, as: data, in: &container)
             try Self.encode(.date, as: date, in: &container)
@@ -339,13 +339,13 @@ extension CodableTestTypes.SingleValueProperties {
 
 // MARK: - Predefined Constants
 
-extension CodableTestTypes.SingleValueProperties.Superclass {
+public extension CodableTestTypes.SingleValueProperties.Superclass {
     // MARK: Predefined Constants
-    
-    public static let `default` = CodableTestTypes.SingleValueProperties.Superclass(
+
+    static let `default` = CodableTestTypes.SingleValueProperties.Superclass(
         bool: true,
         data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-        date: Date(timeIntervalSince1970: 1_000),
+        date: Date(timeIntervalSince1970: 1000),
         double: 1,
         float: 2,
         int: 3,
@@ -354,11 +354,11 @@ extension CodableTestTypes.SingleValueProperties.Superclass {
         int32: 6,
         int64: 7
     )
-    
-    public static let partial = CodableTestTypes.SingleValueProperties.Superclass(
+
+    static let partial = CodableTestTypes.SingleValueProperties.Superclass(
         bool: true,
         data: nil,
-        date: Date(timeIntervalSince1970: 1_000),
+        date: Date(timeIntervalSince1970: 1000),
         double: nil,
         float: 2,
         int: nil,
@@ -371,8 +371,8 @@ extension CodableTestTypes.SingleValueProperties.Superclass {
 
 // MARK: - CodableTestTypes.Superclass.CodingKeys Definition
 
-extension CodableTestTypes.SingleValueProperties.Superclass {
-    public enum CodingKeys: CodingKey {
+public extension CodableTestTypes.SingleValueProperties.Superclass {
+    enum CodingKeys: CodingKey {
         case bool
         case data
         case date
@@ -388,17 +388,17 @@ extension CodableTestTypes.SingleValueProperties.Superclass {
 
 // MARK: - CodableTestTypes.SingleValueProperties.Subclass Definition
 
-extension CodableTestTypes.SingleValueProperties {
-    public class Subclass: Superclass {
+public extension CodableTestTypes.SingleValueProperties {
+    class Subclass: Superclass {
         public let string: String?
         public let uint: UInt?
         public let uint8: UInt8?
         public let uint16: UInt16?
         public let uint32: UInt32?
         public let uint64: UInt64?
-        
+
         // MARK: Public Initialization
-        
+
         public init(
             bool: Bool?,
             data: Data?,
@@ -423,7 +423,7 @@ extension CodableTestTypes.SingleValueProperties {
             self.uint16 = uint16
             self.uint32 = uint32
             self.uint64 = uint64
-            
+
             super.init(
                 bool: bool,
                 data: data,
@@ -437,50 +437,50 @@ extension CodableTestTypes.SingleValueProperties {
                 int64: int64
             )
         }
-        
+
         // MARK: Decodable Implementation
-        
+
         public required init(from decoder: Decoder) throws {
             let container = try decoder.container(keyedBy: CodingKeys.self)
-            
+
             string = try Self.decode(.string, in: container)
             uint = try Self.decode(.uint, in: container)
             uint8 = try Self.decode(.uint8, in: container)
             uint16 = try Self.decode(.uint16, in: container)
             uint32 = try Self.decode(.uint32, in: container)
             uint64 = try Self.decode(.uint64, in: container)
-            
+
             let superDecoder = try container.superDecoder()
-            
+
             try super.init(from: superDecoder)
         }
-        
+
         // MARK: Equatable Implementation
-        
+
         public static func == (
             lhs: CodableTestTypes.SingleValueProperties.Subclass,
             rhs: CodableTestTypes.SingleValueProperties.Subclass
         ) -> Bool {
             lhs.bool == rhs.bool &&
-            lhs.data == rhs.data &&
-            lhs.date == rhs.date &&
-            lhs.double == rhs.double &&
-            lhs.float == rhs.float &&
-            lhs.int == rhs.int &&
-            lhs.int8 == rhs.int8 &&
-            lhs.int16 == rhs.int16 &&
-            lhs.int32 == rhs.int32 &&
-            lhs.int64 == rhs.int64 &&
-            lhs.string == rhs.string &&
-            lhs.uint == rhs.uint &&
-            lhs.uint8 == rhs.uint8 &&
-            lhs.uint16 == rhs.uint16 &&
-            lhs.uint32 == rhs.uint32 &&
-            lhs.uint64 == rhs.uint64
+                lhs.data == rhs.data &&
+                lhs.date == rhs.date &&
+                lhs.double == rhs.double &&
+                lhs.float == rhs.float &&
+                lhs.int == rhs.int &&
+                lhs.int8 == rhs.int8 &&
+                lhs.int16 == rhs.int16 &&
+                lhs.int32 == rhs.int32 &&
+                lhs.int64 == rhs.int64 &&
+                lhs.string == rhs.string &&
+                lhs.uint == rhs.uint &&
+                lhs.uint8 == rhs.uint8 &&
+                lhs.uint16 == rhs.uint16 &&
+                lhs.uint32 == rhs.uint32 &&
+                lhs.uint64 == rhs.uint64
         }
-        
+
         // MARK: Private Static Interface
-        
+
         private static func decode<Target>(
             _ key: CodingKeys,
             in container: KeyedDecodingContainer<CodingKeys>
@@ -488,10 +488,10 @@ extension CodableTestTypes.SingleValueProperties {
             guard try !container.decodeNil(forKey: key) else {
                 return nil
             }
-            
+
             return try container.decode(Target.self, forKey: key)
         }
-        
+
         private static func encode<Target>(
             _ key: CodingKeys,
             as value: Target?,
@@ -500,24 +500,24 @@ extension CodableTestTypes.SingleValueProperties {
             guard let value else {
                 return
             }
-            
+
             try container.encode(value, forKey: key)
         }
-        
+
         // MARK: Encodable Implementation
-        
-        public override func encode(to encoder: Encoder) throws {
+
+        override public func encode(to encoder: Encoder) throws {
             var container = encoder.container(keyedBy: CodingKeys.self)
-            
+
             try Self.encode(.string, as: string, in: &container)
             try Self.encode(.uint, as: uint, in: &container)
             try Self.encode(.uint8, as: uint8, in: &container)
             try Self.encode(.uint16, as: uint16, in: &container)
             try Self.encode(.uint32, as: uint32, in: &container)
             try Self.encode(.uint64, as: uint64, in: &container)
-            
+
             let superEncoder = container.superEncoder()
-            
+
             try super.encode(to: superEncoder)
         }
     }
@@ -525,11 +525,11 @@ extension CodableTestTypes.SingleValueProperties {
 
 // MARK: - Constants
 
-extension CodableTestTypes.SingleValueProperties.Subclass {
-    public static let subDefault = CodableTestTypes.SingleValueProperties.Subclass(
+public extension CodableTestTypes.SingleValueProperties.Subclass {
+    static let subDefault = CodableTestTypes.SingleValueProperties.Subclass(
         bool: true,
         data: Data([0xDE, 0xAD, 0xBE, 0xEF]),
-        date: Date(timeIntervalSince1970: 1_000),
+        date: Date(timeIntervalSince1970: 1000),
         double: 1,
         float: 2,
         int: 3,
@@ -544,8 +544,8 @@ extension CodableTestTypes.SingleValueProperties.Subclass {
         uint32: 11,
         uint64: 12
     )
-    
-    public static let subEmpty = CodableTestTypes.SingleValueProperties.Subclass(
+
+    static let subEmpty = CodableTestTypes.SingleValueProperties.Subclass(
         bool: nil,
         data: nil,
         date: nil,
@@ -563,11 +563,11 @@ extension CodableTestTypes.SingleValueProperties.Subclass {
         uint32: nil,
         uint64: nil
     )
-    
-    public static let subPartial = CodableTestTypes.SingleValueProperties.Subclass(
+
+    static let subPartial = CodableTestTypes.SingleValueProperties.Subclass(
         bool: true,
         data: nil,
-        date: Date(timeIntervalSince1970: 1_000),
+        date: Date(timeIntervalSince1970: 1000),
         double: nil,
         float: 2,
         int: nil,
@@ -586,8 +586,8 @@ extension CodableTestTypes.SingleValueProperties.Subclass {
 
 // MARK: - CodableTestTypes.Superclass.CodingKeys Definition
 
-extension CodableTestTypes.SingleValueProperties.Subclass {
-    public enum CodingKeys: CodingKey {
+public extension CodableTestTypes.SingleValueProperties.Subclass {
+    enum CodingKeys: CodingKey {
         case string
         case uint
         case uint8
@@ -599,8 +599,8 @@ extension CodableTestTypes.SingleValueProperties.Subclass {
 
 // MARK: - CodableTestTypes.KeyEncodingStrategy Definition
 
-extension CodableTestTypes {
-    public struct KeyEncodingStrategy: Codable, Equatable {
+public extension CodableTestTypes {
+    struct KeyEncodingStrategy: Codable, Equatable {
         public let thisIsABool: Bool
         public let thisIsAData: Data
         public let thisIsADate: Date
@@ -623,10 +623,10 @@ extension CodableTestTypes {
 
 // MARK: - Constants
 
-extension CodableTestTypes.KeyEncodingStrategy {
+public extension CodableTestTypes.KeyEncodingStrategy {
     // MARK: Predefined
 
-    public static let `default` = CodableTestTypes.KeyEncodingStrategy(
+    static let `default` = CodableTestTypes.KeyEncodingStrategy(
         thisIsABool: true,
         thisIsAData: Data([0xDE, 0xAD, 0xBE, 0xEF]),
         thisIsADate: Date(timeIntervalSince1970: 0),

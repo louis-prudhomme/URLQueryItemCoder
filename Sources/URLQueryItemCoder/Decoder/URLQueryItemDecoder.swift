@@ -12,9 +12,9 @@ import Foundation
 public struct URLQueryItemDecoder {
     /// The strategies used by this decoder for decoding `Decodable` values.
     public var strategies: DecodingStrategies
-    
+
     // MARK: Public Initialization
-    
+
     /// Creates a new, reusable `URLQueryItem` decoder.
     ///
     /// The default decoding strategies are used if none are supplied.
@@ -41,7 +41,7 @@ public struct URLQueryItemDecoder {
             )
         )
     }
-    
+
     /// Creates a new, reusable `URLQueryItem` decoder..
     ///
     /// - Parameter strategies: The strategies for this decoder to use.
@@ -49,18 +49,18 @@ public struct URLQueryItemDecoder {
     public init(strategies: DecodingStrategies) {
         self.strategies = strategies
     }
-    
+
     // MARK: Private Instance Interface
-    
+
     private func decodeToIntermediateRepresentation(
         from queryItems: [URLQueryItem]
     ) throws -> DecodingContainer<String> {
         let codingPath: [StringCodingKey] = []
-        
+
         guard let firstQueryItem = queryItems.first else {
             return .empty(at: codingPath, using: strategies)
         }
-        
+
         guard
             let firstQueryItemKeyComponents = firstQueryItem.name.removingPercentEncoding?.components(separatedBy: "."),
             let firstQueryItemFirstKeyComponents = firstQueryItemKeyComponents.first,
@@ -71,38 +71,38 @@ public struct URLQueryItemDecoder {
                 configuration: strategies
             )
             singleValueContainer.store(firstQueryItem.value?.removingPercentEncoding)
-            
+
             return .singleValue(singleValueContainer)
         }
-        
+
         let multiValueContainer = DecodingContainer<String>.MultiValue(
             codingPath: codingPath,
             configuration: strategies
         )
-        
+
         for queryItem in queryItems {
             guard let keyComponents = queryItem.name.removingPercentEncoding?.components(separatedBy: ".") else {
                 throw DecodingError.dataCorrupted(
                     DecodingError.Context(
                         codingPath: codingPath,
                         debugDescription:
-                            "Cannot have an empty key in a keyed container with multiple keys. " +
+                        "Cannot have an empty key in a keyed container with multiple keys. " +
                             "Impossible to infer appropriate structure for decoded type."
                     )
                 )
             }
 
             let lastKeyComponentIndex = keyComponents.index(before: keyComponents.endIndex)
-            
+
             var currentCodingPath = codingPath
             var currentMultiValueContainer = multiValueContainer
-            
+
             for index in keyComponents.indices {
                 let keyComponent = keyComponents[index]
-                
+
                 let codingKey = StringCodingKey(stringValue: keyComponent)
                 currentCodingPath.append(codingKey)
-                
+
                 if index == lastKeyComponentIndex {
                     let singleValueContainer = DecodingContainer<String>.SingleValue(
                         codingPath: currentCodingPath,
@@ -119,7 +119,7 @@ public struct URLQueryItemDecoder {
                             DecodingError.Context(
                                 codingPath: currentCodingPath,
                                 debugDescription:
-                                    "Single value container has to be the last key in a path. " +
+                                "Single value container has to be the last key in a path. " +
                                     "It does not support child keys."
                             )
                         )
@@ -134,7 +134,7 @@ public struct URLQueryItemDecoder {
                 }
             }
         }
-        
+
         return .multiValue(multiValueContainer)
     }
 }
@@ -143,7 +143,7 @@ public struct URLQueryItemDecoder {
 
 extension URLQueryItemDecoder: TopLevelDecoder {
     // MARK: Public Instance Interface
-    
+
     /// Decodes an instance of the indicated type.
     ///
     /// - Parameter type: The type to decode the query items into.
@@ -155,7 +155,7 @@ extension URLQueryItemDecoder: TopLevelDecoder {
     ) throws -> Value where Value: Decodable {
         let container = try decodeToIntermediateRepresentation(from: queryItems)
         let lowLevelDecoder = LowLevelDecoder(container: container)
-        
+
         return try lowLevelDecoder.decodeWithSpecialTreatment(as: type)
     }
 }

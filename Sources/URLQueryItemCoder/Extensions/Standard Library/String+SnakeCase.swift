@@ -9,7 +9,7 @@ private let snakeCaseSeparator: Character = "_"
 
 extension String {
     /// Convert from "camelCaseKeys" to "snake_case_keys".
-    /// 
+    ///
     /// Capital characters are determined by testing membership in `CharacterSet.uppercaseLetters` and
     /// `CharacterSet.lowercaseLetters` (Unicode General Categories Lu and Lt).
     ///
@@ -23,34 +23,34 @@ extension String {
     /// 4. Preserves starting and ending `_`.
     ///
     /// For example, `oneTwoThree` becomes `one_two_three`. `_oneTwoThree_` becomes `_one_two_three_`.
-    internal func convertToSnakeCase() -> Self {
+    func convertToSnakeCase() -> Self {
         guard !isEmpty else {
             return String()
         }
-            
+
         var previousCharacter: Character? = nil
         var snakeCase: [Character] = []
-        
+
         for index in indices {
             let currentCharacter = self[index]
-            
+
             if currentCharacter.isUppercase {
                 if let previousCharacter, previousCharacter.isLowercase {
                     snakeCase.append(snakeCaseSeparator)
                 } else {
                     let nextIndex = self.index(after: index)
-                    
+
                     if nextIndex != endIndex, self[nextIndex].isLowercase {
                         snakeCase.append(snakeCaseSeparator)
                     }
                 }
             }
-            
+
             snakeCase.append(contentsOf: currentCharacter.lowercased())
-            
+
             previousCharacter = currentCharacter
         }
-        
+
         return String(snakeCase)
     }
 }

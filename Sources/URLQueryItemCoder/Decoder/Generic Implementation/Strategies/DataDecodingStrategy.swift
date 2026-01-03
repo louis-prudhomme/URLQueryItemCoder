@@ -13,23 +13,23 @@ public enum DataDecodingStrategy {
     ///
     /// This is the default strategy.
     case base64
-    
+
     /// Decode the `Data` as a custom value decoded by the given closure.
     case custom(@Sendable (Decoder) throws -> Data)
-    
+
     /// Defer to `Data` for decoding.
     case deferredToData
-    
+
     // MARK: Public Static Interface
-    
+
     /// The default decoding strategy.
     ///
     /// Equals `.base64`.
     public static let `default`: Self = .base64
-    
+
     // MARK: Internal Instance Interface
-    
-    internal func decode<PrimitiveValue>(insideOf lowLevelDecoder: LowLevelDecoder<PrimitiveValue>) throws -> Data {
+
+    func decode<PrimitiveValue>(insideOf lowLevelDecoder: LowLevelDecoder<PrimitiveValue>) throws -> Data {
         switch self {
         case .base64:
             switch lowLevelDecoder.container {
@@ -42,7 +42,7 @@ public enum DataDecodingStrategy {
                 )
             case let .singleValue(singleValueContainer):
                 let stringValue = try singleValueContainer.decode(String.self)
-                
+
                 guard let data = Data(base64Encoded: stringValue) else {
                     throw DecodingError.dataCorrupted(
                         DecodingError.Context(
@@ -51,7 +51,7 @@ public enum DataDecodingStrategy {
                         )
                     )
                 }
-                
+
                 return data
             }
         case let .custom(closure):
